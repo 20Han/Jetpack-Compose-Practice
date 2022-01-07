@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -13,13 +14,15 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -53,7 +56,7 @@ fun MessageCard(msg: Message) {
         // We keep track if the message is expanded or not in this
         // variable
         var isExpanded by remember { mutableStateOf(false) }
-        val surfaceColor : Color by animateColorAsState(
+        val surfaceColor: Color by animateColorAsState(
             if (isExpanded) MaterialTheme.colors.primary else MaterialTheme.colors.surface
         )
 
@@ -68,12 +71,14 @@ fun MessageCard(msg: Message) {
                 shape = MaterialTheme.shapes.medium,
                 elevation = 1.dp,
                 color = surfaceColor,
-                modifier = Modifier.animateContentSize().padding(1.dp)
+                modifier = Modifier
+                    .animateContentSize()
+                    .padding(1.dp)
             ) {
                 Text(
                     text = msg.body,
                     modifier = Modifier.padding(all = 4.dp),
-                    maxLines = if(isExpanded) Int.MAX_VALUE else 1,
+                    maxLines = if (isExpanded) Int.MAX_VALUE else 1,
                     style = MaterialTheme.typography.body2
                 )
             }
@@ -116,5 +121,69 @@ fun Conversation(messages: List<Message>) {
 fun PreviewConversation() {
     ComposeTutorialTheme {
         Conversation(messages = SampleData.conversationSample)
+    }
+}
+
+data class Topic(val image: Painter, val name: String)
+
+@Composable
+fun TopicChip(topic: Topic, selected: Boolean) {
+    val radius by animateDpAsState(
+        if (selected) 20.dp else 0.dp
+    )
+
+    Card(
+        shape = RoundedCornerShape(
+            topStart = radius
+        )
+    ) {
+        Row {
+            Box {
+                Image(
+                    painter = topic.image,
+                    contentDescription = "topic image",
+                    modifier = Modifier.size(100.dp, 100.dp)
+                )
+                if (selected) {
+                    Icon(
+                        imageVector = Icons.Filled.Done,
+                        contentDescription = "done_icon",
+                        modifier = Modifier.size(100.dp, 100.dp)
+                    )
+                }
+            }
+            Text(
+                text = topic.name,
+                modifier = Modifier.padding(16.dp)
+            )
+        }
+    }
+}
+
+@Preview(name = "TopicChip_selected")
+@Composable
+fun PreviewTopicChip() {
+    ComposeTutorialTheme {
+        TopicChip(
+            topic = Topic(
+                painterResource(id = R.drawable.ic_launcher_foreground),
+                "Topic Name"
+            ),
+            true
+        )
+    }
+}
+
+@Preview(name = "TopicChip_notSelected")
+@Composable
+fun PreviewTopicChipNotSelected() {
+    ComposeTutorialTheme {
+        TopicChip(
+            topic = Topic(
+                painterResource(id = R.drawable.ic_launcher_foreground),
+                "Topic Name"
+            ),
+            false
+        )
     }
 }
