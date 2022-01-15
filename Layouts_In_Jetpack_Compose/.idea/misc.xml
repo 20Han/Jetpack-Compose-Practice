@@ -5,10 +5,13 @@
       <map>
         <entry key="../../../../../../layout/compose-model-1642257635642.xml" value="0.31503378378378377" />
         <entry key="../../../../../../layout/compose-model-1642257772241.xml" value="0.75" />
+        <entry key="../../../../../../layout/compose-model-1642258985572.xml" value="0.33" />
+        <entry key="../../../../../../layout/compose-model-1642259168828.xml" value="0.284504968715495" />
+        <entry key="../../../../../../layout/compose-model-1642264342543.xml" value="0.5" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
